@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "typeRoots": ["./node_modules/@types", "./typings"],
+    "types": ["node", "lodash"]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
