@@ -18,19 +18,13 @@ export default abstract class Module {
   }
 
   /**
-   * Instance getter
-   */
-  public instance() {
-    return this.model;
-  }
-
-  /**
    * Create record in the Stripe vault
    * @param {any} creationObject Object with creation details
    * @param {IOption} options Optional options object
    */
-  public async create(creationObject: any, options: IOption = {}) {
-    [this.error, this.result] = await to(this.instance().create(creationObject, options));
+  public async create(creationObject: any, options: IOption | null = null) {
+    if (options) { return await this.createWithOptions(creationObject, options); }
+    [this.error, this.result] = await to(this.instance().create(creationObject));
     return this.result;
   }
 
@@ -39,8 +33,9 @@ export default abstract class Module {
    * @param {string} findingId Unique finding index
    * @param {IOption} options Optional options object
    */
-  public async retrieve(findingId: string, options: IOption = {}) {
-    [this.error, this.result] = await to(this.instance().retrieve(findingId, options));
+  public async retrieve(findingId: string, options: IOption | null = null) {
+    if (options) { return await this.retrieveWithOptions(findingId, options); }
+    [this.error, this.result] = await to(this.instance().retrieve(findingId));
     return this.result;
   }
 
@@ -67,30 +62,67 @@ export default abstract class Module {
    * List records from the Stripe model
    * @param {IListOption} options Listing options
    */
-  public async list(options: IListOption) {
-    [this.error, this.result] = await to(this.instance().list(options));
-    return this.result;
+  public async list(options: IListOption | null = null) {
+    if (options) { return await this.listWithOptions(options); }
+    [this.error, this.result] = await to(this.instance().list());
+    return this.result.data;
+  }
+
+  /**
+   * Instance getter
+   */
+  protected instance() {
+    return this.model;
   }
 
   /**
    * Gets query result
    */
-  public getResult() {
+  protected getResult() {
     return this.result;
   }
 
   /**
    * Error checker
    */
-  public isError() {
+  protected isError() {
     return (this.error) ? true : false;
   }
 
   /**
    * Error getter
    */
-  public getError() {
-    return (this.isError()) ? this.error : null;
+  protected getError() {
+    return this.error;
+  }
+
+  /**
+   * Creation helper
+   * @param {any} creationObject Creation object
+   * @param {IOption} options Options array
+   */
+  private async createWithOptions(creationObject: any, options: IOption) {
+    [this.error, this.result] = await to(this.instance().create(creationObject, options));
+    return this.result;
+  }
+
+  /**
+   * Retrieve helper
+   * @param {string} findingId Finding unique index
+   * @param {IOption} options Options array
+   */
+  private async retrieveWithOptions(findingId: string, options: IOption) {
+    [this.error, this.result] = await to(this.instance().retrieve(findingId, options));
+    return this.result;
+  }
+
+  /**
+   * Listing with options
+   * @param {IListOption} options Options
+   */
+  private async listWithOptions(options: IListOption) {
+    [this.error, this.result] = await to(this.instance().list(options));
+    return this.result;
   }
 
 }

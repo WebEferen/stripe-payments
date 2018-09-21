@@ -12,32 +12,45 @@ export default class Payments {
 
   /**
    * Initializer for the stripe bridge
-   * @param paymentsConfig Stripe configuration
+   * @param {any} paymentsConfig Stripe configuration
    */
   constructor(paymentsConfig: any) {
     this.provider = stripe(paymentsConfig);
   }
 
   /**
-   * Gets specific module
-   * @param moduleName Module specific name (e.g. customers | subscriptions | plans | invoices)
+   * Customers model
    */
-  public getModule(moduleName: string) {
-    const model = (this.provider[moduleName]) ? this.provider[moduleName] : null;
-    switch (model) {
-      case 'customers':
-        return new CustomerModule(model);
-      case 'subscriptions':
-        return new SubscriptionModule(model);
-      case 'plans':
-        return new PlanModule(model);
-      case 'subscriptionItems':
-        return new SubscriptionItemModule(model);
-      case 'product':
-        return new ProductModule(model);
-    }
+  public customers() {
+    return new CustomerModule(this.provider.customers);
+  }
 
-    return undefined;
+  /**
+   * Subscriptions model
+   */
+  public subscriptions() {
+    return new SubscriptionModule(this.provider.subscriptions);
+  }
+
+  /**
+   * Plans model
+   */
+  public plans() {
+    return new PlanModule(this.provider.plans);
+  }
+
+  /**
+   * SubscriptionItems model
+   */
+  public subscriptionItems() {
+    return new SubscriptionItemModule(this.provider.subscriptionItems);
+  }
+
+  /**
+   * Products model
+   */
+  public products() {
+    return new ProductModule(this.provider.products);
   }
 
 }

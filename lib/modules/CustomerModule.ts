@@ -2,9 +2,12 @@ import Module from '../abstracts/Module';
 
 import ICard from '../interfaces/ICard';
 import ICustomer from '../interfaces/ICustomer';
+import IDeleted from '../interfaces/IDeleted';
 import IError from '../interfaces/IError';
 import IListOption from '../interfaces/IListOption';
 import IOption from '../interfaces/IOption';
+
+import CustomerValidator from '../validators/CustomerValidator';
 
 export default class CustomerModule extends Module {
 
@@ -19,10 +22,15 @@ export default class CustomerModule extends Module {
    * @param {ICustomer} customerDetails New customer details
    * @param {IOption} options Options (if provided)
    */
-  public async create(customerDetails: ICustomer, options: IOption = {}) {
-    await super.create(customerDetails, options);
-    if (super.isError()) { return {success: false, error: super.getError() as IError}; }
-    return {success: true, customer: super.getResult() as ICustomer};
+  public async create(customerDetails: ICustomer, options: IOption | null = null) {
+    const validator = new CustomerValidator(customerDetails);
+    if (validator.isOk()) {
+      await super.create(customerDetails, options);
+      if (super.isError()) { return {success: false, error: super.getError() as IError}; }
+      return {success: true, customer: super.getResult() as ICustomer};
+    }
+
+    return {success: false, error: validator.getErrors()};
   }
 
   /**
@@ -30,7 +38,7 @@ export default class CustomerModule extends Module {
    * @param {string} customerId Customer unique index
    * @param {IOption} options Options (if provided)
    */
-  public async retrieve(customerId: string, options: IOption = {}) {
+  public async retrieve(customerId: string, options: IOption | null = null) {
     await super.retrieve(customerId, options);
     if (super.isError()) { return {success: false, error: super.getError() as IError}; }
     return {success: true, customer: super.getResult() as ICustomer};
@@ -54,7 +62,7 @@ export default class CustomerModule extends Module {
   public async delete(customerId: string) {
     await super.delete(customerId);
     if (super.isError()) { return {success: false, error: super.getError() as IError}; }
-    return {success: true, customer: super.getResult() as ICustomer};
+    return {success: true, customer: super.getResult() as IDeleted};
   }
 
   /**
@@ -109,7 +117,7 @@ export default class CustomerModule extends Module {
   public async deleteCard(customerId: string, cardId: string) {
     await super.instance().deleteCard(customerId, cardId);
     if (super.isError()) { return {success: false, error: super.getError() as IError}; }
-    return {success: true, card: super.getResult() as ICard};
+    return {success: true, card: super.getResult() as IDeleted};
   }
 
   /**
