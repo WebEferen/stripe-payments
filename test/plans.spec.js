@@ -61,7 +61,7 @@ describe('Plans', () => {
   it('should list plans', async() => {
     const result = await plans.list();
     expect(result.success).to.be.true;
-    expect(result.plans.length).to.be.equal(1);
+    expect(result.plans.length).to.be.greaterThan(0);
   });
 
 });

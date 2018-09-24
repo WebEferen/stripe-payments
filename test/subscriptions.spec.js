@@ -61,7 +61,7 @@ describe('Subscriptions', () => {
   it('should get subscriptions list', async() => {
     const result = await subscriptions.list();
     expect(result.success).to.be.true;
-    expect(result.subscriptions.length).to.be.equal(0);
+    expect(result.subscriptions.length).to.be.greaterThan(0);
   });
 
 });

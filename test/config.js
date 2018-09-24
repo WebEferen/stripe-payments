@@ -76,8 +76,14 @@ const plan = {
 };
 
 const subscriptionItem = {
-  valid: {},
-  invalid: {}
+  valid: {
+    plan: 'premiumAnalyticsPlan',
+    subscription: 'sub_DfCgw3MYToF3HT',
+  },
+  invalid: {
+    plan: 'basicAnalyticsPlan'
+  },
+  existing: ''
 };
 
 const subscription = {
@@ -88,7 +94,7 @@ const subscription = {
   invalid: {
     items: [{plan: 'basicAnalyticsPlan'}]
   },
-  existing: ''
+  existing: 'sub_DfCgw3MYToF3HT'
 };
 
 
