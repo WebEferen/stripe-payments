@@ -23,9 +23,8 @@ export default abstract class Module {
    * @param {IOption} options Optional options object
    */
   public async create(creationObject: any, options: IOption) {
-    if (!this.isEmpty(options)) { return await this.createWithOptions(creationObject, options); }
-    [this.error, this.result] = await to(this.instance().create(creationObject));
-    return this.error || this.result;
+    if (!this.isEmpty(options)) { return this.createWithOptions(creationObject, options); }
+    return this.call(this.instance().create(creationObject));
   }
 
   /**
@@ -35,9 +34,8 @@ export default abstract class Module {
    * istanbul ignore next
    */
   public async retrieve(findingId: string, options: IOption) {
-    if (!this.isEmpty(options)) { return await this.retrieveWithOptions(findingId, options); }
-    [this.error, this.result] = await to(this.instance().retrieve(findingId));
-    return this.error || this.result;
+    if (!this.isEmpty(options)) { return this.retrieveWithOptions(findingId, options); }
+    return this.call(this.instance().retrieve(findingId));
   }
 
   /**
@@ -46,8 +44,7 @@ export default abstract class Module {
    * @param {any} updatedObject Object with update details
    */
   public async update(findingId: string, updatedObject: any) {
-    [this.error, this.result] = await to(this.instance().update(findingId, updatedObject));
-    return this.error || this.result;
+    return this.call(this.instance().update(findingId, updatedObject));
   }
 
   /**
@@ -55,8 +52,7 @@ export default abstract class Module {
    * @param {string} findingId Unique finding index
    */
   public async delete(findingId: string) {
-    [this.error, this.result] = await to(this.instance().del(findingId));
-    return this.error || this.result;
+    return this.call(this.instance().del(findingId));
   }
 
   /**
@@ -64,9 +60,8 @@ export default abstract class Module {
    * @param {IListOption} options Listing options
    */
   public async list(options: IListOption = {}) {
-    if (!this.isEmpty(options)) { return await this.listWithOptions(options); }
-    [this.error, this.result] = await to(this.instance().list());
-    return this.error || this.result.data;
+    if (!this.isEmpty(options)) { return this.listWithOptions(options); }
+    return this.call(this.instance().list());
   }
 
   /**
@@ -75,7 +70,7 @@ export default abstract class Module {
    */
   protected async call(method: any) {
     [this.error, this.result] = await to(method);
-    return this.error || this.result;
+    return (this.error) ? this.error : this.result;
   }
 
   /**
@@ -112,8 +107,7 @@ export default abstract class Module {
    * @param {IOption} options Options array
    */
   private async createWithOptions(creationObject: any, options: IOption) {
-    [this.error, this.result] = await to(this.instance().create(creationObject, options));
-    return this.error || this.result;
+    return this.call(this.instance().create(creationObject, options));
   }
 
   /**
@@ -122,8 +116,7 @@ export default abstract class Module {
    * @param {IOption} options Options array
    */
   private async retrieveWithOptions(findingId: string, options: IOption) {
-    [this.error, this.result] = await to(this.instance().retrieve(findingId, options));
-    return this.error || this.result;
+    return this.call(this.instance().retrieve(findingId, options));
   }
 
   /**
@@ -131,8 +124,7 @@ export default abstract class Module {
    * @param {IListOption} options Options
    */
   private async listWithOptions(options: IListOption) {
-    [this.error, this.result] = await to(this.instance().list(options));
-    return this.error || this.result;
+    return this.call(this.instance().list(options));
   }
 
   /**
