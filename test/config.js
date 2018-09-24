@@ -44,13 +44,47 @@ const customer = {
   }
 };
 
+const product = {
+  valid: {
+    id: 'commonAnalyticsPlan',
+    name: 'Common Analytics Plan (Monthly)',
+    type: 'service'
+  },
+  invalid: {
+    id: null,
+    name: null,
+    type: 'service'
+  },
+  existing: 'prod_DfAMMgIQBaGIAO'
+};
+
+const plan = {
+  valid: {
+    id: 'commonAnalyticsPlan',
+    amount: 19900,
+    currency: 'usd',
+    nickname: 'Common Analytics Plan (Monthly)',
+    interval: 'month',
+    product: product.existing
+  },
+  invalid: {
+    currency: null,
+    interval: 'month',
+    product: product.existing
+  },
+  existing: 'basicAnalyticsPlan'
+};
+
+const subscriptionItem = {
+  valid: {},
+  invalid: {}
+};
+
 const subscription = {
   customer: {
     id: 'cus_De5jUu83xWswKO'
   }
 };
-
-
 
 
 
@@ -70,5 +104,5 @@ const modules = {
   plans: payments.plans()
 };
 
-const mockups = {customer, subscription, cardTokens};
+const mockups = {customer, subscription, cardTokens, product, plan, subscriptionItem};
 module.exports = {mockups, modules};
