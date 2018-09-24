@@ -81,9 +81,14 @@ const subscriptionItem = {
 };
 
 const subscription = {
-  customer: {
-    id: 'cus_De5jUu83xWswKO'
-  }
+  valid: {
+    customer: 'cus_De5jUu83xWswKO',
+    items: [{plan: 'basicAnalyticsPlan'}]
+  },
+  invalid: {
+    items: [{plan: 'basicAnalyticsPlan'}]
+  },
+  existing: ''
 };
 
 

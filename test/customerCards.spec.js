@@ -8,9 +8,14 @@ const mockups = config.mockups;
 const modules = config.modules;
 const customers = modules.customers;
 
-const customer = {id: mockups.subscription.customer.id, card: ''};
+const customer = {id: '', card: ''};
 
 describe('Customer Cards', () => {
+
+  before(async() => {
+    const result = await customers.create(mockups.customer.valid);
+    customer.id = result.customer.id;
+  });
 
   it('should NOT attach card to the customer', async() => {
     const result = await customers.attachCard(customer.id, mockups.cardTokens.invalid.declined);
@@ -65,12 +70,17 @@ describe('Customer Cards', () => {
   it('should list cards from the customer', async() => {
     const result = await customers.listCards(customer.id);
     expect(result.success).to.be.true;
-    expect(result.cards.length).to.be.equal(1);
+    expect(result.cards.length).to.be.greaterThan(0);
   });
 
   it('should delete card from the customer', async() => {
     const result = await customers.deleteCard(customer.id, customer.card);
     expect(result.success).to.be.true;
+  });
+
+
+  after(async() => {
+    await customers.delete(customer.id);
   });
 
 });
