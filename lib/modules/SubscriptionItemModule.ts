@@ -15,7 +15,7 @@ export default class SubscriptionItemModule extends Module {
    * @param {ISubscriptionItem} subscriptionItem New subscription item object
    */
   public async create(subscriptionItem: ISubscriptionItem) {
-    await super.create(subscriptionItem);
+    await super.create(subscriptionItem, {});
     if (super.isError()) { return {success: false, error: super.getError() as IError}; }
     return {success: true, subscriptionItem: super.getResult() as ISubscriptionItem};
   }

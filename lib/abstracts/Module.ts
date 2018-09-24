@@ -22,8 +22,8 @@ export default abstract class Module {
    * @param {any} creationObject Object with creation details
    * @param {IOption} options Optional options object
    */
-  public async create(creationObject: any, options: IOption | null = null) {
-    if (options) { return await this.createWithOptions(creationObject, options); }
+  public async create(creationObject: any, options: IOption) {
+    if (!this.isEmpty(options)) { return await this.createWithOptions(creationObject, options); }
     [this.error, this.result] = await to(this.instance().create(creationObject));
     return this.result;
   }
@@ -32,9 +32,10 @@ export default abstract class Module {
    * Finds record based for the specific index key
    * @param {string} findingId Unique finding index
    * @param {IOption} options Optional options object
+   * istanbul ignore next
    */
-  public async retrieve(findingId: string, options: IOption | null = null) {
-    if (options) { return await this.retrieveWithOptions(findingId, options); }
+  public async retrieve(findingId: string, options: IOption) {
+    if (!this.isEmpty(options)) { return await this.retrieveWithOptions(findingId, options); }
     [this.error, this.result] = await to(this.instance().retrieve(findingId));
     return this.result;
   }
@@ -62,10 +63,19 @@ export default abstract class Module {
    * List records from the Stripe model
    * @param {IListOption} options Listing options
    */
-  public async list(options: IListOption | null = null) {
-    if (options) { return await this.listWithOptions(options); }
+  public async list(options: IListOption = {}) {
+    if (!this.isEmpty(options)) { return await this.listWithOptions(options); }
     [this.error, this.result] = await to(this.instance().list());
     return this.result.data;
+  }
+
+  /**
+   * Method caller
+   * @param method Method async
+   */
+  protected async call(method: any) {
+    [this.error, this.result] = await to(method);
+    return this.result;
   }
 
   /**
@@ -125,4 +135,15 @@ export default abstract class Module {
     return this.result;
   }
 
+  /**
+   * Object empty checker
+   * @param object Object for check
+   */
+  private isEmpty(object: any) {
+    for (const key in object) {
+      /* istanbul ignore next */
+      if (object.hasOwnProperty(key)) { return false; }
+    }
+    return true;
+  }
 }

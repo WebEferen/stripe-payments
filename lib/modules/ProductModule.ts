@@ -15,7 +15,7 @@ export default class ProductModule extends Module {
    * @param {IProduct} product New product object
    */
   public async create(product: IProduct) {
-    await super.create(product);
+    await super.create(product, {});
     if (super.isError()) { return {success: false, error: super.getError() as IError}; }
     return {success: true, product: super.getResult() as IProduct};
   }

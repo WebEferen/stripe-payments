@@ -41,14 +41,13 @@ const customer = {
   },
   invalid: {
     description: 'John Doe (5aa65202f97621ef2d6a136a)'
-  },
-  test: {
-    id: 'cus_De5jUu83xWswKO'
   }
 };
 
 const subscription = {
-
+  customer: {
+    id: 'cus_De5jUu83xWswKO'
+  }
 };
 
 

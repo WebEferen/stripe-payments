@@ -10,7 +10,7 @@ const customers = modules.customers;
 
 const customer = {id: '', tempId: ''};
 
-describe('Customers module', () => {
+describe('Customers', () => {
 
   it('should be a module', () => {
     expect(modules.hasOwnProperty('customers')).to.be.true;
@@ -24,7 +24,7 @@ describe('Customers module', () => {
   });
 
   it('should NOT create customer (w/options)', async() => {
-    const result = await customers.create(mockups.customer.valid, {});
+    const result = await customers.create(mockups.customer.valid, {expand: ['test']});
     expect(result.success).to.be.false;
   });
 

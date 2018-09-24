@@ -15,7 +15,7 @@ export default class PlanModule extends Module {
    * @param {IPlan} plan New plan object
    */
   public async create(plan: IPlan) {
-    await super.create(plan);
+    await super.create(plan, {});
     if (super.isError()) { return {success: false, error: super.getError() as IError}; }
     return {success: true, plan: super.getResult() as IPlan};
   }
