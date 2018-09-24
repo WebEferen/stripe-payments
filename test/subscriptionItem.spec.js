@@ -62,7 +62,7 @@ describe('Subscription Items', () => {
     const subscription = {subscription: mockups.subscriptionItem.valid.subscription};
     const result = await subscriptionItems.list(subscription);
     expect(result.success).to.be.true;
-    expect(result.subscriptionItems).to.be.greaterThan(0);
+    expect(result.subscriptionItems.length).to.be.greaterThan(0);
   });
 
 });
