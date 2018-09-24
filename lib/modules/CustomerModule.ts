@@ -11,10 +11,6 @@ import CustomerValidator from '../validators/CustomerValidator';
 
 export default class CustomerModule extends Module {
 
-  /**
-   * Constructor
-   * @param module Customer module instance
-   */
   constructor(module: any) { super(module); }
 
   /**

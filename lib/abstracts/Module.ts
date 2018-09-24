@@ -66,7 +66,7 @@ export default abstract class Module {
 
   /**
    * Method caller
-   * @param method Method async
+   * @param {any} method Method async
    */
   protected async call(method: any) {
     [this.error, this.result] = await to(method);
@@ -129,7 +129,7 @@ export default abstract class Module {
 
   /**
    * Object empty checker
-   * @param object Object for check
+   * @param {any} object Object for check
    */
   private isEmpty(object: any) {
     for (const key in object) {
