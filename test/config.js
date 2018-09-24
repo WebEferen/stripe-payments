@@ -46,7 +46,7 @@ const customer = {
 
 const product = {
   valid: {
-    id: 'commonAnalyticsPlan',
+    id: 'commonAnalyticsPlanProduct',
     name: 'Common Analytics Plan (Monthly)',
     type: 'service'
   },

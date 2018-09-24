@@ -58,8 +58,7 @@ export default class ProductModule extends Module {
    */
   public async list(listOptions: IListOption) {
     await super.list(listOptions);
-    if (super.isError()) { return {success: false, error: super.getError() as IError}; }
-    return {success: true, products: super.getResult()};
+    return {success: true, products: super.getResult().data};
   }
 
 }
