@@ -1,5 +1,7 @@
 import Payments from './lib/Payments';
 
-export function payments(stripeToken: string) {
-  return new Payments(stripeToken);
+import IConfig from './lib/interfaces/IConfig';
+
+export function payments(paymentsConfig: IConfig) {
+  return new Payments(paymentsConfig);
 }

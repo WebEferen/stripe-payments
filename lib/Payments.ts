@@ -5,17 +5,22 @@ import PlanModule from './modules/PlanModule';
 import ProductModule from './modules/ProductModule';
 import SubscriptionItemModule from './modules/SubscriptionItemModule';
 import SubscriptionModule from './modules/SubscriptionModule';
+import TokenModule from './modules/TokenModule';
+
+import IConfig from './interfaces/IConfig';
 
 export default class Payments {
 
   private provider: any;
+  private config: IConfig;
 
   /**
    * Initializer for the stripe bridge
-   * @param {any} paymentsConfig Stripe configuration
+   * @param {IConfig} paymentsConfig Stripe configuration
    */
-  constructor(paymentsConfig: any) {
-    this.provider = stripe(paymentsConfig);
+  constructor(paymentsConfig: IConfig) {
+    this.provider = stripe(paymentsConfig.private_key);
+    this.config = paymentsConfig;
   }
 
   /**
@@ -51,6 +56,13 @@ export default class Payments {
    */
   public products() {
     return new ProductModule(this.provider.products);
+  }
+
+  /**
+   * Token model
+   */
+  public tokens() {
+    return new TokenModule(this.config);
   }
 
 }

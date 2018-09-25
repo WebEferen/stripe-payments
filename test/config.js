@@ -1,4 +1,8 @@
-const token = 'sk_test_q0IPxgiZsOsTVYMPyVobBife';
+const config = {
+  private_key: 'sk_test_q0IPxgiZsOsTVYMPyVobBife',
+  public_key: 'pk_test_OR9RM59fKhxa3821U50e9zT7',
+  environment: 'Sandbox'
+};
 
 const cardTokens = {
   valid: {
@@ -105,14 +109,15 @@ const subscription = {
 
 
 // Rest of the configuration
-const payments = require('../dist').payments(token);
+const payments = require('../dist').payments(config);
 
 const modules = {
   customers: payments.customers(),
   subscriptionItems: payments.subscriptionItems(),
   subscriptions: payments.subscriptions(),
   products: payments.products(),
-  plans: payments.plans()
+  plans: payments.plans(),
+  tokens: payments.tokens()
 };
 
 const mockups = {customer, subscription, cardTokens, product, plan, subscriptionItem};
