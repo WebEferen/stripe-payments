@@ -1,5 +1,3 @@
-import to from 'await-to-js';
-
 import IListOption from '../interfaces/IListOption';
 import IOption from '../interfaces/IOption';
 
@@ -69,7 +67,7 @@ export default abstract class Module {
    * @param {any} method Method async
    */
   protected async call(method: any) {
-    [this.error, this.result] = await to(method);
+    [this.error, this.result] = await this.to(method);
     return (this.error) ? this.error : this.result;
   }
 
@@ -137,5 +135,13 @@ export default abstract class Module {
       if (object.hasOwnProperty(key)) { return false; }
     }
     return true;
+  }
+
+  /**
+   * Promise like object resolver
+   * @param {Promise} promisable Promise like object
+   */
+  private to(promisable: Promise<any>) {
+    return promisable.then((res) => [null, res]).catch((err) => [err, null]);
   }
 }
